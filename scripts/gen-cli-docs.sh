@@ -6,6 +6,9 @@
 # Run this whenever a command, flag or help text changes; CI fails if the file is stale.
 set -euo pipefail
 
+# clap prints the current value of env-backed options; keep local settings out of the docs.
+unset ZKNBE_ADMIN_URL ZKNBE_ADMIN_TOKEN ZKNBE_ADMIN_TOKEN_FILE ZKNBE_ON_REVOKED ZKNBED_CONFIG ZKNBED_DATA_DIR
+
 BIN=${BIN:-target/debug}
 OUT=${OUT:-docs/CLI.md}
 EXE=""
