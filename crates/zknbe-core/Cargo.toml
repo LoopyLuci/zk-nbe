@@ -4,7 +4,9 @@ description = "ZK-NBE cryptographic core: verifiable OPRF, secret sharing, key d
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-rust-version.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
 curve25519-dalek.workspace = true

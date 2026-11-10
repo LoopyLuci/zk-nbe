@@ -1,6 +1,13 @@
 # ZK-NBE — zero-knowledge network-bound disk encryption
 
+[![CI](https://github.com/LoopyLuci/zk-nbe/actions/workflows/ci.yml/badge.svg)](https://github.com/LoopyLuci/zk-nbe/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+![Status: unaudited](https://img.shields.io/badge/status-unaudited-orange.svg)
+
 Unattended boot for LUKS-encrypted machines, with a kill switch.
+
+**New here?** Start with [Getting started in ten minutes](docs/GETTING-STARTED.md) (any OS, no
+disk needed), or browse [all documentation](docs/README.md).
 
 A machine bound with ZK-NBE unlocks its disk at boot by talking to one or more **key servers**.
 The servers can refuse — because an administrator revoked the machine, because it went silent
@@ -69,16 +76,28 @@ zknbectl device approve web01 --window 4h   # planned long maintenance
 zknbectl audit verify
 ```
 
+## Documentation
+
+| | |
+|---|---|
+| [Getting started](docs/GETTING-STARTED.md) | Ten-minute hands-on tour, plus a glossary |
+| [Operations guide](docs/OPERATIONS.md) | Deploying key servers, binding machines, day-two tasks, troubleshooting |
+| [Command reference](docs/CLI.md) | Every command and flag of `zknbe`, `zknbed`, `zknbectl` |
+| [Design](docs/DESIGN.md) | How it works and why it is built this way |
+| [Threat model](docs/THREAT-MODEL.md) | What is and is not protected, scenario by scenario |
+| [Protocol](docs/PROTOCOL.md) | Wire format and cryptographic details |
+| [Development guide](docs/DEVELOPMENT.md) | Code map, invariants, recipes for common changes |
+
 ## Repository layout
 
 | Path | Contents |
 |---|---|
-| `crates/zknbe-core` | Cryptography and wire protocol (no I/O): OPRF + DLEQ, Shamir, key hierarchy, transcripts |
+| `crates/zknbe-core` | Cryptography and wire protocol (no I/O) |
 | `crates/zknbe-server` | `zknbed` key server and `zknbectl` admin CLI |
-| `crates/zknbe-client` | `zknbe`: enrol, unlock, agent, LUKS2 token store, systemd password agent |
+| `crates/zknbe-client` | `zknbe` device client |
 | `dist/` | systemd units, dracut module, initramfs-tools hook, example config |
-| `scripts/luks-e2e.sh` | Full-stack test on a real LUKS2 volume |
-| `docs/` | [Design](docs/DESIGN.md) · [Threat model](docs/THREAT-MODEL.md) · [Protocol](docs/PROTOCOL.md) · [Operations](docs/OPERATIONS.md) |
+| `scripts/` | Real-LUKS end-to-end test, CLI reference generator |
+| `docs/` | The documentation above |
 
 ## Testing
 
@@ -104,3 +123,13 @@ Known boundaries (details in the threat model): a thief who takes the *whole* ma
 it back on an allowed network before the lease expires can boot it; an attacker with root on a
 running machine already has the data; remote attestation (TPM quotes) is not implemented — the
 TPM is used for local sealing only.
+
+## Contributing
+
+Contributions are welcome, especially reports from testing the boot integration on real
+distributions. See [CONTRIBUTING.md](CONTRIBUTING.md). AI coding agents: start with
+[AGENTS.md](AGENTS.md). Security issues: [SECURITY.md](SECURITY.md).
+
+## Licence
+
+[Apache License 2.0](LICENSE).

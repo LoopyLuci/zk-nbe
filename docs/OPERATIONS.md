@@ -1,5 +1,9 @@
 # Operations guide
 
+Deploying and running ZK-NBE for real. If you have not used it before, do the
+[ten-minute tour](GETTING-STARTED.md) first; every command is detailed in the
+[command reference](CLI.md).
+
 ## Building and installing
 
 ```bash

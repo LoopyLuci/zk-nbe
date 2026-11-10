@@ -6,7 +6,9 @@ members = ["crates/zknbe-core", "crates/zknbe-server", "crates/zknbe-client"]
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-rust-version = "1.75"
+repository = "https://github.com/LoopyLuci/zk-nbe"
+keywords = ["luks", "disk-encryption", "oprf", "zero-knowledge", "tang"]
+categories = ["cryptography", "command-line-utilities"]
 
 [workspace.dependencies]
 zknbe-core = { path = "crates/zknbe-core" }
