@@ -1,0 +1,34 @@
+# ZK-NBE key server configuration (/etc/zknbe/zknbed.toml).
+# Every key is optional; the values shown are the defaults.
+
+[server]
+# Device-facing listener. Requests and responses are signed end-to-end and the key exchange is
+# blinded, so this port may be exposed directly; put a TLS proxy in front for metadata privacy.
+listen = "0.0.0.0:7421"
+
+# Admin API. Keep it on loopback (use `ssh -L` or run zknbectl on the server), or expose it
+# only through a TLS-terminating proxy with network access controls.
+admin_listen = "127.0.0.1:7422"
+
+data_dir = "/var/lib/zknbe"
+
+# Proxies whose X-Forwarded-For header is trusted when evaluating network policy.
+trusted_proxies = []
+
+# Secrets, generated on first start if missing (mode 0600).
+# admin_token_file = "/var/lib/zknbe/admin.token"
+# master_key_file  = "/var/lib/zknbe/master.key"   # ideally on separate media / a secrets mount
+
+# Policy given to new enrolment tokens unless `zknbectl token create` overrides it.
+[defaults]
+lease_ttl_secs = 900            # silence longer than this means "missing"
+heartbeat_interval_secs = 120   # advertised to the agent
+on_lease_expiry = "lock"        # "lock": missing devices need admin approval; "allow": never auto-lock
+rotation_interval_secs = 604800 # per-device key rotation; 0 disables
+allowed_cidrs = []              # e.g. ["10.20.0.0/16"]; empty = any network
+
+[limits]
+evaluations_per_minute = 12
+challenge_ttl_secs = 60
+max_pending_challenges = 100000
+approve_window_secs = 900       # default window for `zknbectl device approve`

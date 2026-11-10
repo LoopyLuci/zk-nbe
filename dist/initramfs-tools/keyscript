@@ -1,0 +1,23 @@
+#!/bin/sh
+# crypttab keyscript for initramfs-tools. Install as /usr/lib/zknbe/keyscript (mode 0755) and
+# reference it in /etc/crypttab:
+#
+#   root  UUID=<luks-uuid>  none  luks,initramfs,keyscript=/usr/lib/zknbe/keyscript
+#
+# The initramfs needs networking: set e.g. IP=dhcp in /etc/initramfs-tools/initramfs.conf
+# (or ip=dhcp on the kernel command line).
+#
+# stdout carries the passphrase and nothing else; on failure we fall back to the console
+# prompt so the recovery passphrase still works.
+
+if [ -r /scripts/functions ]; then
+    . /scripts/functions
+    configure_networking >&2 2>&1 || true
+fi
+
+if /usr/bin/zknbe luks passphrase --retry-for 90s "$CRYPTTAB_SOURCE"; then
+    exit 0
+fi
+
+echo "zknbe: network unlock failed, falling back to passphrase" >&2
+exec /lib/cryptsetup/askpass "Please unlock disk ${CRYPTTAB_NAME:-$CRYPTTAB_SOURCE}: "

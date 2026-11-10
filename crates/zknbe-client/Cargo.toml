@@ -1,0 +1,28 @@
+[package]
+name = "zknbe-client"
+description = "ZK-NBE device client (zknbe): enrol, unlock, heartbeat agent and LUKS2 integration"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "zknbe"
+path = "src/main.rs"
+
+[dependencies]
+zknbe-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+clap.workspace = true
+ureq.workspace = true
+anyhow.workspace = true
+zeroize.workspace = true
+uuid.workspace = true
+rand.workspace = true
+
+[dev-dependencies]
+zknbe-server.workspace = true
+tokio.workspace = true
+tempfile.workspace = true
+rusqlite.workspace = true

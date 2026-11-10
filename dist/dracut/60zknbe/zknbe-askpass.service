@@ -1,0 +1,11 @@
+[Unit]
+Description=Answer disk passphrase prompts via ZK-NBE key servers
+DefaultDependencies=no
+Conflicts=shutdown.target initrd-switch-root.target
+Before=shutdown.target initrd-switch-root.target
+
+[Service]
+Type=simple
+# Runs while prompts exist and exits once the prompt directory has been empty for a few
+# seconds; the path unit starts it again when a new prompt appears.
+ExecStart=/usr/bin/zknbe askpass --watch

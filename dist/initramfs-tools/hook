@@ -1,0 +1,22 @@
+#!/bin/sh
+# initramfs-tools hook (Debian/Ubuntu without dracut).
+# Install as /etc/initramfs-tools/hooks/zknbe (mode 0755), then `update-initramfs -u`.
+
+PREREQ=""
+prereqs() { echo "$PREREQ"; }
+case "$1" in
+    prereqs) prereqs; exit 0 ;;
+esac
+
+. /usr/share/initramfs-tools/hook-functions
+
+copy_exec /usr/bin/zknbe /usr/bin
+copy_exec /usr/lib/zknbe/keyscript /usr/lib/zknbe
+if command -v systemd-creds >/dev/null 2>&1; then
+    copy_exec "$(command -v systemd-creds)" /usr/bin
+fi
+# Name resolution for glibc builds.
+for lib in /lib/*/libnss_dns.so.* /lib/*/libnss_files.so.* /usr/lib/*/libnss_dns.so.* /usr/lib/*/libnss_files.so.*; do
+    [ -e "$lib" ] && copy_exec "$lib"
+done
+exit 0

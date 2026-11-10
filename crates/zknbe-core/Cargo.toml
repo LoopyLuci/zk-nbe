@@ -1,0 +1,21 @@
+[package]
+name = "zknbe-core"
+description = "ZK-NBE cryptographic core: verifiable OPRF, secret sharing, key derivation and wire protocol"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+curve25519-dalek.workspace = true
+ed25519-dalek.workspace = true
+sha2.workspace = true
+hkdf.workspace = true
+hmac.workspace = true
+chacha20poly1305.workspace = true
+rand.workspace = true
+zeroize.workspace = true
+subtle.workspace = true
+base64.workspace = true
+thiserror.workspace = true
+serde.workspace = true

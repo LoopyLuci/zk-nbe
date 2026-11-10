@@ -1,0 +1,16 @@
+[Unit]
+Description=ZK-NBE heartbeat agent (lease renewal, key rotation, revocation hook)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Optional: ZKNBE_ON_REVOKED="systemctl poweroff" in /etc/zknbe/agent.env
+EnvironmentFile=-/etc/zknbe/agent.env
+# With no arguments the agent looks after every LUKS2 volume that carries a zknbe binding.
+ExecStart=/usr/bin/zknbe agent
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

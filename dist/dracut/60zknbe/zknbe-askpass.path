@@ -1,0 +1,12 @@
+[Unit]
+Description=Watch for passphrase prompts ZK-NBE can answer
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=paths.target shutdown.target cryptsetup.target
+
+[Path]
+DirectoryNotEmpty=/run/systemd/ask-password
+MakeDirectory=yes
+
+[Install]
+WantedBy=cryptsetup.target
